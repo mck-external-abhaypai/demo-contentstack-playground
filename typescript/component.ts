@@ -12,6 +12,7 @@ type AdditionalParam = {
   html_code: string;
   body: string;
   date: string;
+  uid?: string; // Added uid as it's used in authors.tsx
 }
 
 type Employee = {
@@ -63,6 +64,63 @@ type Widget = {
   $: AdditionalParam;
 }
 
+// New types for Article Components
+export type HeroBannerSplitLayoutType = {
+  title: string;
+  description: string;
+  image: {
+    url: string;
+    title: string;
+  };
+  date: string;
+  author: AuthorsType[];
+  social_links?: any; // Placeholder for social links
+  // Add more properties as needed based on your Contentstack entry structure
+  $?: AdditionalParam;
+};
+
+export type HeroComponentType = {
+  title: string;
+  date: string;
+  image: {
+    url: string;
+    title: string;
+  };
+  $?: {
+    title?: string;
+    date?: string;
+  };
+};
+
+export type AuthorsType = {
+  uid: string;
+  title: string;
+  bio: string;
+  picture: Image;
+  $?: AdditionalParam;
+};
+
+export type CTAType = {
+  title: string;
+  url: string;
+  // Add more properties as needed
+  $?: AdditionalParam;
+};
+
+export type RelatedArticlesType = {
+  title: string;
+  url: string;
+  // Add more properties as needed
+  $?: AdditionalParam;
+};
+
+export type ArticleComponent = {
+  hero_banner_split_layout?: HeroBannerSplitLayoutType;
+  authors?: AuthorsType[];
+  cta?: CTAType;
+  related_articles?: RelatedArticlesType[];
+};
+
 export type Component = {
   hero_banner: Banner;
   section?: SectionProps;
@@ -72,6 +130,7 @@ export type Component = {
   section_with_html_code?: AdditionalParamProps;
   our_team?: TeamProps;
   widget?: Widget;
+  hero?: HeroComponentType;
 }
 
 export type SectionWithBucket = {
@@ -132,5 +191,9 @@ export type RenderProps = {
   contentTypeUid: string;
   entryUid: string;
   locale: string;
-  pageComponents:Component[];
+  pageComponents: (Component | ArticleComponent)[];
+  articleTitle?: string;
+  articleDate?: string;
+  pageData?: any;
+  body?: string;
 }

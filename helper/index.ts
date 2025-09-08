@@ -79,3 +79,4 @@ export const getBlogPostRes = async (entryUrl: string): Promise<BlogPosts> => {
   liveEdit && addEditableTags(response[0], "blog_post", true);
   return response[0];
 };
+
