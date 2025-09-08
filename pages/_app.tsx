@@ -8,10 +8,23 @@ import 'nprogress/nprogress.css';
 import '../styles/third-party.css';
 import '../styles/style.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import '@contentstack/live-preview-utils/dist/main.css';
 import { Props } from "../typescript/pages";
-
-
+import ContentstackLivePreview from "@contentstack/live-preview-utils";
+import { onEntryChange } from '@contentstack/live-preview-utils';
+import { useEffect } from 'react';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+const envConfig = process.env.CONTENTSTACK_API_KEY
+  ? process.env
+  : publicRuntimeConfig;
+const {
+  CONTENTSTACK_API_KEY,
+  CONTENTSTACK_ENVIRONMENT,
+  CONTENTSTACK_LIVE_PREVIEW,
+  CONTENTSTACK_PREVIEW_HOST,
+  CONTENTSTACK_PREVIEW_TOKEN,
+  CONTENTSTACK_MANAGEMENT_TOKEN,
+} = envConfig;
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -19,6 +32,22 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp(props: Props) {
   const { Component, pageProps, header, footer, entries } = props;
   const { page, posts, archivePost, blogPost } = pageProps;
+
+  useEffect(() => {
+    if (CONTENTSTACK_LIVE_PREVIEW === "true") {
+      ContentstackLivePreview.init({
+        stackDetails: {
+          apiKey: CONTENTSTACK_API_KEY as string,
+          environment: CONTENTSTACK_ENVIRONMENT as string,
+          management_token: CONTENTSTACK_MANAGEMENT_TOKEN as string,
+        },
+        clientUrl: CONTENTSTACK_PREVIEW_HOST as string,
+        ssr: false,
+        enable: CONTENTSTACK_LIVE_PREVIEW === "true",
+        mode: "builder",
+      });
+    }
+  }, []);
 
   const metaData = (seo: any) => {
     const metaArr = [];

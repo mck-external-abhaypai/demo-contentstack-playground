@@ -20,6 +20,7 @@ type AdditionalParam = {
   announcement_text: string;
   label: {};
   url: string;
+  _content_type_uid: string;
 }
 
 type Post = {
@@ -33,8 +34,11 @@ type Post = {
   $: AdditionalParam;
 }
 
-type Author = {
+export type Author = {
   title: string;
+  uid: string;
+  bio: string;
+  picture: Image;
   $: AdditionalParam;
 }
 
@@ -49,10 +53,11 @@ type Seo = {
   enable_search_indexing: boolean
 }
 
-type Blog = {
-  url: string;
-  body: string;
+export type Blog = {
+  url?: string;
+  body?: string;
   title: string;
+  featured_image?: Image;
   $: AdditionalParam;
 }
 
@@ -105,5 +110,8 @@ export type BlogPosts = {
   uid:string;
   url: string;
   _owner: string;
-  $: AdditionalParam;
+  _content_type_uid: string;
+  $?: AdditionalParam & {
+    body?: string;
+  };
 }
