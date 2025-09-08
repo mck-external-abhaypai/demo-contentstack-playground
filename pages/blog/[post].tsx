@@ -34,7 +34,7 @@ export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPos
         <RenderComponents
           pageComponents={banner.page_components}
           blogPost
-          contentTypeUid='blog_post'
+          contentTypeUid='artilce'
           entryUid={banner?.uid}
           locale={banner?.locale}
         />

@@ -11,6 +11,7 @@ type GetEntry = {
   contentTypeUid: string;
   referenceFieldPath: string[] | undefined;
   jsonRtePath: string[] | undefined;
+  entryUid?: string;
 };
 
 type GetEntryByUrl = {
@@ -39,12 +40,18 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 
 // Setting LP if enabled
 ContentstackLivePreview.init({
+  stackDetails: {
+    apiKey: envConfig.CONTENTSTACK_API_KEY,
+    environment: envConfig.CONTENTSTACK_ENVIRONMENT,
+    management_token: envConfig.CONTENTSTACK_MANAGEMENT_TOKEN,
+  },
   //@ts-ignore
   stackSdk: Stack,
   clientUrlParams:{
     host: envConfig.CONTENTSTACK_APP_HOST,
   },
   ssr:false,
+  mode: "builder",
 })?.catch((err) => console.error(err));
 
 export const { onEntryChange } = ContentstackLivePreview;
@@ -65,27 +72,49 @@ export const getEntry = ({
   contentTypeUid,
   referenceFieldPath,
   jsonRtePath,
+  entryUid,
 }: GetEntry) => {
   return new Promise((resolve, reject) => {
     const query = Stack.ContentType(contentTypeUid).Query();
     if (referenceFieldPath) query.includeReference(referenceFieldPath);
-    query
-      .toJSON()
-      .find()
-      .then(
-        (result) => {
-          jsonRtePath &&
-            Utils.jsonToHTML({
-              entry: result,
-              paths: jsonRtePath,
-              renderOption,
-            });
-          resolve(result);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
+    if (entryUid) {
+      query
+        .toJSON()
+        .where("uid", entryUid)
+        .find()
+        .then(
+          (result) => {
+            jsonRtePath &&
+              Utils.jsonToHTML({
+                entry: result,
+                paths: jsonRtePath,
+                renderOption,
+              });
+            resolve(result[0]); // Resolve with the first item for single entry
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    } else {
+      query
+        .toJSON()
+        .find()
+        .then(
+          (result) => {
+            jsonRtePath &&
+              Utils.jsonToHTML({
+                entry: result,
+                paths: jsonRtePath,
+                renderOption,
+              });
+            resolve(result);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    }
   });
 };
 
