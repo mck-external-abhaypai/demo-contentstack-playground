@@ -5,7 +5,7 @@ import { FooterProps, HeaderProps } from "../typescript/layout";
 import { getEntry, getEntryByUrl } from "../contentstack-sdk";
 
 const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
+const envConfig = typeof window === 'undefined' && process.env.CONTENTSTACK_API_KEY
   ? process.env
   : publicRuntimeConfig;
 
