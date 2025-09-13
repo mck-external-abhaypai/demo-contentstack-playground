@@ -85,7 +85,7 @@ export default function Article() {
           console.log('🔍 Trying URL variant:', urlVariants)
           entryData = (await getEntryByUrl(
             'article',
-            "en-us",
+            locale ?? 'en-us',
             urlVariant,
             [],
             jsonRtePaths,
@@ -142,7 +142,7 @@ export default function Article() {
 
           const listingData = (await getEntries(
             'article_listing_page',
-            locale,
+            locale ?? 'en-us',
             [],
             [],
             {
@@ -168,7 +168,7 @@ export default function Article() {
 
           const articlesData = await getEntries<Page.ArticlePage['articles'][]>(
             'article',
-            locale,
+            locale || 'en-us',
             [],
             [],
             {
@@ -195,9 +195,11 @@ export default function Article() {
    * useEffect that handles data fetching on pageLoad and live preview
    */
   useEffect(() => {
-    fetchData()
-    onEntryChange(fetchData)
-  }, [path])
+    if (path && locale) {
+    fetchData();
+    onEntryChange(fetchData);
+  }
+  }, [path, locale])
 
   /**
    * useEffect that handles fetching of related articles
