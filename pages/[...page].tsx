@@ -37,17 +37,16 @@ export default function Page(props: Props) {
 
 export async function getServerSideProps({params}: any) {
   try {
-      const entryUrl = params.page.includes('/') ? params.page:`/${params.page}`
-      const entryRes = await getPageRes(entryUrl);
-      if (!entryRes) throw new Error('404');
-      return {
-        props: {
-          entryUrl: entryUrl,
-          page: entryRes,
-        },
-      };
-
+    const entryUrl = '/' + params.page.join('/')
+    const entryRes = await getPageRes(entryUrl)
+    if (!entryRes) throw new Error('404')
+    return {
+      props: {
+        entryUrl,
+        page: entryRes,
+      },
+    }
   } catch (error) {
-    return { notFound: true };
+    return { notFound: true }
   }
 }

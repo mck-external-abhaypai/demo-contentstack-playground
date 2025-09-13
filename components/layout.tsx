@@ -60,15 +60,15 @@ export default function Layout({
   }, [header, footer]);
 
   return (
-    <>
+    <div className='flex flex-col min-h-screen' style={{ minHeight: '500vh' }}>
       {header ? <Header header={getLayout.header} entries={entries} /> : ''}
-      <main className='mainClass'>
+      <main className='relative flex-1'>
         <>
         {children}
         {Object.keys(jsonObj).length && <DevTools response={jsonObj} />}
         </>
       </main>
       {footer ? <Footer footer={getLayout.footer} entries={entries} /> : ''}
-    </>
+    </div>
   );
 }

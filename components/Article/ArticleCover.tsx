@@ -17,6 +17,7 @@ import { isDataInLiveEdit } from '@/utils'
 
 const ArticleCover:React.FC<ArticleCoverType> = (props:ArticleCoverType) => {
     const {title, cover_image, summary ,_content_type_uid, $} = props
+
     return( 
         <div
             id='article-cover'
@@ -30,15 +31,16 @@ const ArticleCover:React.FC<ArticleCoverType> = (props:ArticleCoverType) => {
                 className='mb-0'
             />
             {/* This Text component is used to display the summary of the article as per new figma design in sprint22 */}
+            <div className='relative mt-[1rem] mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone text-base robotoCondensed'>By Hugh Bachmann, Dominic Skerritt, and Elizabeth Young McNally</div>
             <Text
-                content={`<p class='mb-0 !pb-0'><strong ${(isDataInLiveEdit()) ? `data-cslp='${$?.summary?.['data-cslp']}'` : ''}>${summary}</strong></p>`}
+                content={`<p class='mb-0 !pb-0 pt-[1.894rem] tracking-[0] text-[#253143]'><strong class='text-md md:text-2xl font-robotoCondensed font-semibold' ${(isDataInLiveEdit()) ? `data-cslp='${$?.summary?.['data-cslp']}'` : ''}>${summary}</strong></p>`}
                 $ = {(!isDataInLiveEdit()) ? {
                     ... $,
                     content: {
                         'data-cslp': $?.summary?.['data-cslp'] || ''
                     }
                 } : {}}
-                className='mt-[2.23rem] mb-0'
+                className='relative mt-[2.23rem] mb-0 mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone'
                 id={'article-summary'}
             />
         </div>

@@ -8,6 +8,17 @@ body {
   line-height: 22px;
 }
 
+main {
+  min-height: calc(100vh - 200px); /* 200px ≈ footer height */
+  display: block;
+}
+
+footer {
+  clear: both;
+  position: relative;
+  width: 100%;
+}
+
 h1, h2, h3, h4 {
   font-weight: bold;
   letter-spacing: 0.2px;
@@ -1883,4 +1894,378 @@ footer a {
     padding: 0 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
+}
+
+.text h1 {
+    margin-top: 1rem;
+    font-size: 4rem;
+    line-height: 4.375rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text h1:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+@media (min-width: 640px) {
+    .text h1 {
+        margin-top:0;
+        font-size: 3.625rem;
+        line-height: 3.75rem
+    }
+}
+
+@media (min-width: 1280px) {
+    .text h1 {
+        margin-top:0
+    }
+}
+
+.text h2 {
+    padding-top: 2.23rem;
+    font-size: 2.968rem;
+    line-height: 3.142rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text h2:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+@media (min-width: 768px) {
+    .text h2 {
+        font-size:3.625rem;
+        line-height: 3.75rem
+    }
+}
+
+.text h2 strong {
+    padding: 0;
+    font-weight: 700
+}
+
+.text h3 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.571rem;
+    line-height: 2.23rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text h3:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text h5 {
+    font-size: 1.25rem;
+    line-height: 5.252rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text h5:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text h6 {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    font-size: 1.25rem;
+    line-height: 5.252rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text h6:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text ul {
+    list-style-type: disc;
+    padding: 1.894rem 1.5rem 6.25rem;
+    letter-spacing: 0
+}
+
+.text ul:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text ol {
+    list-style-type: decimal;
+    padding: 1.894rem 1.5rem 6.25rem;
+    letter-spacing: 0
+}
+
+.text ol:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text li {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text li:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+@media (min-width: 768px) {
+    .text li {
+        font-size:1.125rem;
+        line-height: 1.5rem
+    }
+}
+
+.text li strong {
+    font-weight: 700
+}
+
+.text p {
+    padding-top: 1.894rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(37 49 67/var(--tw-text-opacity,1))
+}
+
+.text p:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+@media (min-width: 768px) {
+    .text p {
+        font-size:1.125rem;
+        line-height: 1.5rem
+    }
+}
+
+.text p {
+    &:empty {
+        display: none
+    }
+
+    &:not(:last-child):not(:has(+ul)):not(:has(+ol)):not(:has(+p)) {
+        padding-bottom:6.25rem
+    }
+}
+
+.text p strong {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    font-weight: 500
+}
+
+@media (min-width: 768px) {
+    .text p strong {
+        font-size:1.5rem;
+        line-height: 2rem
+    }
+}
+
+.text>:last-child {
+    padding-bottom: 0
+}
+
+p {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0/var(--tw-text-opacity,1))
+}
+
+p:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity,1))
+}
+
+.text a {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    --tw-text-opacity: 1;
+    color: rgb(124 77 255/var(--tw-text-opacity,1))
+}
+
+.text a:hover {
+    text-decoration-line: underline
+}
+
+.text img {
+    margin: 2rem auto;
+    width: 100%
+}
+
+.taxonomies-label {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    border-radius: .25rem;
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgb(205 216 232/var(--tw-border-opacity,1));
+    --tw-bg-opacity: 1;
+    background-color: rgb(240 243 247/var(--tw-bg-opacity,1));
+    padding: .875rem;
+    font-family: Inter;
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.375rem;
+    letter-spacing: .045rem;
+    --tw-text-opacity: 1;
+    color: rgb(137 146 174/var(--tw-text-opacity,1))
+}
+
+.taxonomies-label:hover {
+    --tw-border-opacity: 1;
+    border-color: rgb(124 77 255/var(--tw-border-opacity,1));
+    background-color: #7C4DFF33;
+    --tw-text-opacity: 1;
+    color: rgb(124 77 255/var(--tw-text-opacity,1));
+    text-decoration-line: underline
+}
+
+h1:before,h2:before,h3:before,h4:before,h5:before,h6:before {
+  content: " ";
+  background-color: #253543;
+  color: #253543;
+  width: .543rem;
+  height: 6rem;
+  text-align: inherit;
+  transform: rotate(90deg) translateX(-5.5rem) translateY(-47%);
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  position: absolute
+}
+
+.dark h1:before,.dark h2:before,.dark h3:before,.dark h4:before,.dark h5:before,.dark h6:before {
+    background-color: white
+}
+
+@media (min-width: 768px) {
+    .md\:mx-\[5\.25rem\] {
+        margin-left:5.25rem;
+        margin-right: 5.25rem
+    }
+
+    .md\:-mt-px {
+        margin-top: -1px
+    }
+
+    .md\:mb-0 {
+        margin-bottom: 0
+    }
+
+    .md\:mb-25 {
+        margin-bottom: 6.25rem
+    }
+
+    .md\:flex {
+        display: flex
+    }
+
+    .md\:\!min-h-\[3\.929rem\] {
+        min-height: 3.929rem!important
+    }
+
+    .md\:w-auto {
+        width: auto
+    }
+
+    .md\:max-w-\[45\.635\%\] {
+        max-width: 45.635%
+    }
+
+    .md\:max-w-\[75\.84vw\] {
+        max-width: 75.84vw
+    }
+
+    .md\:grid-cols-3 {
+        grid-template-columns: repeat(3,minmax(0,1fr))
+    }
+
+    .md\:flex-row {
+        flex-direction: row
+    }
+
+    .md\:flex-nowrap {
+        flex-wrap: nowrap
+    }
+
+    .md\:items-center {
+        align-items: center
+    }
+
+    .md\:px-10\.48 {
+        padding-left: 2.62rem;
+        padding-right: 2.62rem
+    }
+
+    .md\:px-21 {
+        padding-left: 5.25rem;
+        padding-right: 5.25rem
+    }
+
+    .md\:pt-\[96px\] {
+        padding-top: 96px
+    }
+
+    .md\:text-center {
+        text-align: center
+    }
+
+    .md\:text-4xl {
+        font-size: 2.968rem;
+        line-height: 3.142rem
+    }
+
+    .md\:text-6xl {
+        font-size: 3.625rem;
+        line-height: 3.75rem
+    }
+
+    .md\:text-xl {
+        font-size: 1.5rem;
+        line-height: 2rem
+    }
+
+    .md\:font-semibold {
+        font-weight: 600
+    }
+
+    .md\:leading-\[3\.75rem\] {
+        line-height: 3.75rem
+    }
 }

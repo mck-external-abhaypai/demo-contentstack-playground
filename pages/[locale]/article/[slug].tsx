@@ -8,14 +8,13 @@ import { ArticleCover } from '@/components/Article/ArticleCover'
 import { RelatedLinks } from '@/components/Article/RelatedLinks'
 import { RelatedArticles } from '@/components/Article/RelatedArticles'
 import { NotFoundComponent } from '@/components/common/404'
-import { onEntryChange } from '@/config'
+import { onEntryChange, Stack } from '@/config'
 import { getPersonalizeAttribute, isDataInLiveEdit, removeSpecialChar } from '@/utils'
 import useRouterHook from '@/hooks/useRouterHook'
 import { setDataForChromeExtension } from '@/utils'
 import { usePersonalization } from '@/context'
 import { articleJSONRtePathIncludes } from '@/services/helper'
 import { getEntries, getEntryByUrl } from '@/services'
-
 /**
  * @component Article - Article Component (Slug Based)
  *
@@ -62,6 +61,13 @@ export default function Article() {
     try {
       const jsonRtePaths = [...articleJSONRtePathIncludes]
       console.log('🔎 Fetching entry for path:', path, 'locale:', locale)
+
+      const result = await Stack.ContentType("article")  // content type UID
+  .Entry("blta10d046ce3cd8838")                    // entry UID
+  .toJSON()
+  .fetch();
+
+console.log(result);
       
       // Debug environment config
       console.log('🔧 Environment check:', {
@@ -72,11 +78,27 @@ export default function Article() {
       })
       
       // Try different URL formats to see which one works
-      const urlVariants = [                         // just the slug
-        `/article${path}`,                // full path
-                       // with leading slash
+      // const urlVariants = [                         // just the slug
+      //   `/article${path}`,                // full path
+      //                  // with leading slash
+      // ]
+
+      let cleanPath = path.replace(/^\/?article\//, '')
+
+      const urlVariants = [
+        `/article/${cleanPath}`,
+        `/article/${cleanPath}/`,
       ]
-      
+
+      const contentstackLocale = (() => {
+        switch (locale) {
+          case 'en': return 'en-us'
+          case 'fr': return 'fr-fr'
+          case 'de': return 'de-de'
+          default: return 'en-us'
+        }
+      })()
+
       let entryData = null
       let lastError = null
       
@@ -85,7 +107,7 @@ export default function Article() {
           console.log('🔍 Trying URL variant:', urlVariants)
           entryData = (await getEntryByUrl(
             'article',
-            "en-us",
+            contentstackLocale,
             urlVariant,
             [],
             jsonRtePaths,
@@ -119,6 +141,10 @@ export default function Article() {
         contenttype: 'article',
         locale
       })
+
+      if (entryData) {
+        fetchArticles(entryData)
+      }
       setLoading(false)
     } catch (err) {
       console.error('🚀 ~ fetchData error:', err)
@@ -132,18 +158,18 @@ export default function Article() {
    *
    * @async
    */
-  const fetchArticles = async () => {
+  const fetchArticles = async (data: any) => {
     try {
       if (data && data?.taxonomies?.length > 0) {
-        if (data.show_related_links) {
+        if (true) {
           const filterQuery = data.taxonomies?.map((elem) => ({
             url: `/articles/${elem.taxonomy_uid}/${elem.term_uid.replaceAll('_', '-')}` as string
           }))
 
           const listingData = (await getEntries(
             'article_listing_page',
-            locale,
-            [],
+            'en-us',
+            ['authors'],
             [],
             {
               queryOperator: 'or',
@@ -215,9 +241,45 @@ export default function Article() {
     related_links,
     show_related_articles,
     related_articles,
+    taxonomies,
+    page_components,
     $
   } = data || {}
 
+  // const render_related_articles = page_components?.[2]
+
+  // useEffect(() => {
+  //   const fetchArticles = async () => {
+  //     if (render_related_articles?.related_articles?.length) {
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     try {
+  //       setLoading(true);
+  //       // setError(null);
+  //       // Fetch all articles in parallel
+  //       const articleRefs = Object.values(render_related_articles?.related_articles || {});
+  //       const articlePromises = articleRefs?.map(
+  //         (articleRef) => getArticleByUid(articleRef.uid)
+  //       );
+
+  //       const fetchedArticles = await Promise.all(articlePromises);
+
+  //       // Filter out any failed requests (null/undefined results)
+  //       const validArticles = fetchedArticles.filter(article => article != null);
+
+  //       setArticles(validArticles);
+  //     } catch (err) {
+  //       console.error('Error fetching related articles:', err);
+  //       // setError('Failed to load related articles');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchArticles();
+  // }, [render_related_articles]);
 
   const cards: ImageCardItem[] | [] = (articles?.map((article) => {
     return {
@@ -230,7 +292,7 @@ export default function Article() {
   }) || []) as ImageCardItem[]
 
   const relatedArticles =
-    cards && cards.splice(0, data?.related_articles?.number_of_articles ?? 6)
+    cards && cards.splice(0, related_articles?.number_of_articles ?? 6)
 
   return data ? (
     <div className="min-h-screen bg-white">
@@ -239,66 +301,78 @@ export default function Article() {
        
 
         {/* Article Cover Component */}
-        <div className="bg-white py-8">
-          <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="bg-white">
+          <div className="main-layout mx-auto h-screen min-h-screen justify-center relative">
             <ArticleCover
               title={title}
-              summary={summary}
+              summary={'Embark on a journey through Amsterdam\'s picturesque canals, where cultural heritage and scenic beauty converge'}
               cover_image={cover_image}
               $={$}
               _content_type_uid={'article'}
             />
-          </div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-              
-              {/* Article Content */}
-              <div className="lg:col-span-3">
-                <div className="max-w-4xl mx-auto">
-                  <article className="prose prose-lg prose-slate max-w-none">
-                    <div className="text-lg leading-relaxed text-gray-700 space-y-6">
-                      <Text content={content} $={$} id={'article-content'} />
-                    </div>
-                  </article>
-
+            {/* Main Content Area */}
+            <div className="relative mt-[6.25rem] mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone">
+              <div className="text md:max-w-[75.84vw] whitespace-break-spaces">
+                {/* <div className="grid grid-cols-1 lg:grid-cols-4 gap-12"> */}
                   
+                  {/* Article Content */}
+                  <div className="lg:col-span-3">
+                    {/* <div className="max-w-4xl mx-auto"> */}
+                      <article className="prose prose-lg prose-slate max-w-none">
+                        <div className="text-lg leading-relaxed text-gray-700 space-y-6">
+                          <Text content={content} $={$} id={'article-content'} />
+                        </div>
+                      </article>
+
+                      
+                    {/* </div> */}
+                  </div>
+
+                  {/* Sidebar */}
+                
+                {/* </div> */}
+              </div>
+            </div>
+
+            <div className='relative mt-[3.25rem] mb-[6.25rem] mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone flex flex-col text md:max-w-[75.84vw] whitespace-break-spaces'>
+              <div className='h4 text text-center' style={{ fontFamily: 'Roboto Condensed' }}>About the author(s)</div>
+              <div className='text p' style={{ fontFamily: 'Roboto Condensed', fontSize: '16px' }}>{
+                  <div
+                    className="text p"
+                    style={{ fontFamily: 'Roboto Condensed', fontSize: '16px' }}
+                    dangerouslySetInnerHTML={{
+                      __html: page_components[1].authors.about_the_author_s_,
+                    }}
+                  />
+              }</div>
+            </div>
+
+            {/* Related Links Section */}
+            {taxonomies?.length > 0 && (
+              <div className="mt-16 py-12 border-t border-gray-200">
+                <div className="max-w-6xl mx-auto px-6 lg:px-8">
+                  <RelatedLinks
+                    relatedLinks={relatedLinks}
+                    relatedLinksLabel={related_links}
+                    $={data?.$}
+                  />
                 </div>
               </div>
-
-              {/* Sidebar */}
-             
-            </div>
-          </div>
-        </div>
-
-        {/* Related Links Section */}
-        {data?.taxonomies?.length > 0 && show_related_links && (
-          <div className="mt-16 py-12 border-t border-gray-200">
-            <div className="max-w-6xl mx-auto px-6 lg:px-8">
-              <RelatedLinks
-                relatedLinks={relatedLinks}
-                relatedLinksLabel={related_links}
-                $={data?.$}
-              />
-            </div>
-          </div>
-        )}
+            )}
 
         {/* Related Articles Section */}
-        {show_related_articles && relatedArticles && relatedArticles.length > 0 && (
+        {relatedArticles && relatedArticles.length > 0 && (
           <div className="mt-16">
             <div className="max-w-6xl mx-auto px-6 lg:px-8">
               <RelatedArticles 
-                related_articles={related_articles} 
-                cards={relatedArticles} 
+                related_articles={data?.related_articles} 
+                cards={data?.relatedArticles} 
               />
             </div>
           </div>
         )}
+          </div>
+        </div>
       </PageWrapper>
     </div>
   ) : (
