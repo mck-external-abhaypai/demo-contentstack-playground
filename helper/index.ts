@@ -5,7 +5,7 @@ import { FooterProps, HeaderProps } from "../typescript/layout";
 import { getEntry, getEntryByUrl } from "../contentstack-sdk";
 
 const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
+const envConfig = typeof window === 'undefined' && process.env.CONTENTSTACK_API_KEY
   ? process.env
   : publicRuntimeConfig;
 
@@ -80,3 +80,13 @@ export const getBlogPostRes = async (entryUrl: string): Promise<BlogPosts> => {
   return response[0];
 };
 
+export const getArticleByUid = async (uid: string): Promise<BlogPosts> => {
+  const response = (await getEntry({
+    contentTypeUid: "article",
+    entryUid: uid,
+    referenceFieldPath: ["author", "related_post"],
+    jsonRtePath: ["body", "related_post.body"],
+  })) as BlogPosts[];
+  liveEdit && addEditableTags(response[0], "article", true);
+  return response[0];
+};

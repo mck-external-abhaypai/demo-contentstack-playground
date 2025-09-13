@@ -6,15 +6,19 @@ import Layout from '../components/layout';
 import { getHeaderRes, getFooterRes, getAllEntries } from '../helper';
 import 'nprogress/nprogress.css';
 import '../styles/third-party.css';
-import '../styles/style.css';
+import '../styles/Home.module.css';
+import '../styles/tool-tip.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import '../components/Carousel/carousel.css';
 import { Props } from "../typescript/pages";
 import ContentstackLivePreview from "@contentstack/live-preview-utils";
 import { onEntryChange } from '@contentstack/live-preview-utils';
 import { useEffect } from 'react';
 import getConfig from 'next/config';
+import '../styles/globals.css';
+import '../styles/style.css';
 const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
+const envConfig = typeof window === 'undefined' && process.env.CONTENTSTACK_API_KEY
   ? process.env
   : publicRuntimeConfig;
 const {
