@@ -18,7 +18,7 @@ ContentstackLivePreview.init({
         locale: getLocaleForURL()
     },
     stackSdk: Stack.config as IStackSdk,
-    ssr: true
+    ssr: false
 })
 
 export const previewSdk = {

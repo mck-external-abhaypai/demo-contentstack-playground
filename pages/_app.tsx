@@ -46,7 +46,7 @@ function MyApp(props: Props) {
           management_token: CONTENTSTACK_MANAGEMENT_TOKEN as string,
         },
         clientUrl: CONTENTSTACK_PREVIEW_HOST as string,
-        ssr: true,
+        ssr: false,
         enable: CONTENTSTACK_LIVE_PREVIEW === "true",
         mode: "builder",
       });
