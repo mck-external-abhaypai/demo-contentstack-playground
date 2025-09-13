@@ -20,8 +20,9 @@ const Text: FunctionComponent<TextType> = (props: TextType) => {
         content && typeof content === 'string'
             ? <div 
                 id={id?.toString()} 
-                className={` relative my-25 ${className} mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone`} {...$?.content}> 
-                <div className='text md:max-w-[75.84vw] whitespace-break-spaces'>{parse(content)}</div>
+                className={`relative ${className} mx-[2.25rem] ml-0 dark:bg-stone font-robotoCondensed`} {...$?.content}> 
+                <div className='text md:max-w-[75.84vw] whitespace-break-spaces'
+                >{parse(content)}</div>
             </div> 
             : <></>
     )

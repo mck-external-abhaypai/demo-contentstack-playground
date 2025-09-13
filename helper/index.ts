@@ -80,3 +80,13 @@ export const getBlogPostRes = async (entryUrl: string): Promise<BlogPosts> => {
   return response[0];
 };
 
+export const getArticleByUid = async (uid: string): Promise<BlogPosts> => {
+  const response = (await getEntry({
+    contentTypeUid: "article",
+    entryUid: uid,
+    referenceFieldPath: ["author", "related_post"],
+    jsonRtePath: ["body", "related_post.body"],
+  })) as BlogPosts[];
+  liveEdit && addEditableTags(response[0], "article", true);
+  return response[0];
+};

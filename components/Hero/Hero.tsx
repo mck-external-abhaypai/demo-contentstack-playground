@@ -81,8 +81,8 @@ const Hero: React.FC<HeroProps> = (props: HeroProps) => {
             <div className={`dark h-full flex flex-row ${position_css}`}>
                 <div className='lg:max-w-[45.635%] mx-[2.25rem] md:mx-[5.25rem]'>
                     {bannerHeading && <h2 data-id='h2-text' {...dataCslpHeading} 
-                        className={`text-3xl md:text-4xl font-semibold tracking-[0.125rem] p-0 lg:text-6xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] mt-[2.055rem] ${(position_css?.includes('text-right') ? 'text-right' : '')}`}>
-                        {bannerHeading}</h2>}
+                        className={`box-border border-0 border-[#e5e7eb] text-3xl md:text-4xl font-semibold tracking-[0.125rem] p-0 lg:text-6xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] mt-[2.055rem] text-white/100 ${(position_css?.includes('text-right') ? 'text-right' : '')}`}>
+                        {bannerHeading.toUpperCase()}</h2>}
                     {bannerContent && <p data-id='paragraph-text' {...dataCslpContent}  
                         className={'font-light text-md md:text-xl tracking-[0.063rem] p-0 text-white mt-[1.748rem] drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,0.8)] whitespace-break-spaces line-clamp-5'}>
                         {bannerContent}
@@ -92,7 +92,7 @@ const Hero: React.FC<HeroProps> = (props: HeroProps) => {
                         isABEnabled={isABEnabled}
                         className={`relative mt-[1.748rem] max-w-full w-max btn-primary ${(position_css?.includes('justify-end') ? 'justify-self-end' : '')}`}
                     >
-                        <span {...bannerCta?.[0]?.$?.text}>{bannerCta?.[0]?.text} </span>
+                        <span {...bannerCta?.[0]?.$?.text}>{bannerCta?.[0]?.text}</span>
                     </Link></span>}
                 </div>
             </div>

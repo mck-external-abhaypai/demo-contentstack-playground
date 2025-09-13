@@ -7,6 +7,7 @@ import { onEntryChange } from '../contentstack-sdk';
 import { getHeaderRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
 import { HeaderProps, Entry, NavLinks } from "../typescript/layout";
+import LanguageSwitcher from './language-switcher';
 
 export default function Header({ header, entries }: {header: HeaderProps, entries: Entry}) {
 
@@ -111,6 +112,9 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
             )}
           </ul>
         </nav>
+        <div>
+            <LanguageSwitcher />
+        </div>
 
         <div className='json-preview'>
           <Tooltip content='JSON Preview' direction='top' dynamic={false} delay={200} status={0}>

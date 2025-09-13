@@ -32,7 +32,6 @@ export const getEntries = async <T>(contentTypeUid: string, locale: string , ref
             .includeReference(referenceFieldPath ?? [])
             .variants(deserializeVariantIds(personalizationSDK))
             .query()
-            
 
         if (entryQuery) {
             

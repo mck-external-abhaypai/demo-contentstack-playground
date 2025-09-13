@@ -71,21 +71,23 @@ export default function Article() {
         jsonRtePathsLength: jsonRtePaths.length
       })
       
+      // Strip query parameters from path for URL matching
+      const cleanPath = path?.split('?')[0] || path
+
       // Try different URL formats to see which one works
-      const urlVariants = [                         // just the slug
-        `/article${path}`,                // full path
-                       // with leading slash
+      const urlVariants = [
+        cleanPath,                        // just the slug
+        `/article${cleanPath}`,           // full path
       ]
-      
+
       let entryData = null
       let lastError = null
-      
+
       for (const urlVariant of urlVariants) {
         try {
-          console.log('🔍 Trying URL variant:', urlVariants)
           entryData = (await getEntryByUrl(
             'article',
-            "en-us",
+            locale ?? 'en-us',
             urlVariant,
             [],
             jsonRtePaths,
@@ -97,7 +99,6 @@ export default function Article() {
             break
           }
         } catch (error: any) {
-          console.log('❌ Failed with URL:', urlVariant)
           console.log('Error details:', {
             message: error.message,
             status: error.response?.status,
@@ -117,7 +118,7 @@ export default function Article() {
       setDataForChromeExtension({
         entryUid: entryData?.uid || '',
         contenttype: 'article',
-        locale
+        locale: locale || 'en-us'
       })
       setLoading(false)
     } catch (err) {
@@ -142,7 +143,7 @@ export default function Article() {
 
           const listingData = (await getEntries(
             'article_listing_page',
-            locale,
+            locale ?? 'en-us',
             [],
             [],
             {
@@ -168,7 +169,7 @@ export default function Article() {
 
           const articlesData = await getEntries<Page.ArticlePage['articles'][]>(
             'article',
-            locale,
+            locale || 'en-us',
             [],
             [],
             {
@@ -195,9 +196,11 @@ export default function Article() {
    * useEffect that handles data fetching on pageLoad and live preview
    */
   useEffect(() => {
-    fetchData()
-    onEntryChange(fetchData)
-  }, [path])
+    if (path && locale) {
+    fetchData();
+    onEntryChange(fetchData);
+  }
+  }, [path, locale])
 
   /**
    * useEffect that handles fetching of related articles
@@ -209,7 +212,6 @@ export default function Article() {
   const {
     content,
     title,
-    summary,
     cover_image,
     show_related_links,
     related_links,
@@ -243,7 +245,7 @@ export default function Article() {
           <div className="max-w-6xl mx-auto px-6 lg:px-8">
             <ArticleCover
               title={title}
-              summary={summary}
+              summary={'Embark on a journey through Amsterdam\'s picturesque canals, where cultural heritage and scenic beauty converge'}
               cover_image={cover_image}
               $={$}
               _content_type_uid={'article'}
@@ -262,10 +264,34 @@ export default function Article() {
                   <article className="prose prose-lg prose-slate max-w-none">
                     <div className="text-lg leading-relaxed text-gray-700 space-y-6">
                       <Text content={content} $={$} id={'article-content'} />
+                      {(!content || !content.trim()) && isDataInLiveEdit() && (
+                        <div className="space-y-4 p-6 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg" {...$?.content}>
+                          <div className="text-center text-gray-500 text-sm mb-4">
+                            Content Placeholder - This will only appear in the visual editor
+                          </div>
+                          <p>
+                            Welcome to Amsterdam, a city where history flows through every canal and culture blooms
+                            on every corner. This enchanting Dutch capital offers visitors an unforgettable journey
+                            through centuries of art, architecture, and innovation.
+                          </p>
+                          <p>
+                            From the world-renowned museums housing masterpieces by Van Gogh and Rembrandt to the
+                            charming neighborhoods lined with historic townhouses, Amsterdam presents a perfect blend
+                            of old-world charm and modern sophistication.
+                          </p>
+                          <p>
+                            Take a leisurely cruise along the UNESCO World Heritage canals, explore the vibrant local
+                            markets, or simply enjoy a coffee at one of the many canal-side cafés. Each experience in
+                            Amsterdam tells a story of resilience, creativity, and the enduring Dutch spirit.
+                          </p>
+                          <p>
+                            Whether you're interested in art, history, cycling, or simply soaking in the unique
+                            atmosphere of this remarkable city, Amsterdam promises memories that will last a lifetime.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </article>
-
-                  
                 </div>
               </div>
 

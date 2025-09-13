@@ -6,6 +6,10 @@ const withPWA = require("next-pwa")({
 });
 
 const config = {
+  i18n: {
+    locales: ['en-us', 'fr'],
+    defaultLocale: 'en-us',
+  },
   publicRuntimeConfig: {
     // Will be available on both server and client
     CONTENTSTACK_API_KEY: process.env.CONTENTSTACK_API_KEY,
