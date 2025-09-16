@@ -5,7 +5,6 @@
   "private": true,
   "author": "Contentstack",
   "scripts": {
-    "tailwind:init": "node ./node_modules/tailwindcss/dist/cli.js init -p",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

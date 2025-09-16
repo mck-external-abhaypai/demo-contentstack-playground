@@ -1,6 +1,6 @@
 import { Action, Image } from "./action";
 
-type AdditionalParam = {
+export type AdditionalParam = {
   title: string;
   title_h2: string;
   title_h3: string;
