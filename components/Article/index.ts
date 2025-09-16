@@ -1,4 +1,4 @@
 export * from './ArticleCover'
 export * from './RelatedLinks'
-export * from './RelatedArticles'
+export * from './related-article'
 export * from './NoArticles'

@@ -1496,6 +1496,14 @@ footer a {
   margin: 0;
 }
 
+.authors-title h3::before {
+  transform: rotate(90deg) translateX(-5.5rem) translateY(-36%);
+}
+
+.related-articles h3::before {
+  transform: rotate(90deg) translateX(-3.5rem) translateY(-3%);
+}
+
 .authors-content {
   text-align: center;
   margin-bottom: 40px;

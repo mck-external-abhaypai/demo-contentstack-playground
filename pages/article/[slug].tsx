@@ -6,7 +6,6 @@ import { ImageCardItem } from '@/types/components'
 import { PageWrapper } from '@/components/common/PageWrapper'
 import { ArticleCover } from '@/components/Article/ArticleCover'
 import { RelatedLinks } from '@/components/Article/RelatedLinks'
-import { RelatedArticles } from '@/components/Article/RelatedArticles'
 import { NotFoundComponent } from '@/components/common/404'
 import { onEntryChange } from '@/config'
 import { getPersonalizeAttribute, isDataInLiveEdit, removeSpecialChar } from '@/utils'
@@ -15,6 +14,7 @@ import { setDataForChromeExtension } from '@/utils'
 import { usePersonalization } from '@/context'
 import { articleJSONRtePathIncludes } from '@/services/helper'
 import { getEntries, getEntryByUrl } from '@/services'
+import RenderArticleComponents from '@/components/Article/RenderArticleComponent'
 
 /**
  * @component Article - Article Component (Slug Based)
@@ -210,6 +210,7 @@ export default function Article() {
   }, [data])
 
   const {
+    body,
     content,
     title,
     cover_image,
@@ -217,6 +218,8 @@ export default function Article() {
     related_links,
     show_related_articles,
     related_articles,
+    page_components,
+    uid,
     $
   } = data || {}
 
@@ -242,10 +245,10 @@ export default function Article() {
 
         {/* Article Cover Component */}
         <div className="bg-white py-8">
-          <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div>
             <ArticleCover
               title={title}
-              summary={'Embark on a journey through Amsterdam\'s picturesque canals, where cultural heritage and scenic beauty converge'}
+              summary={''}
               cover_image={cover_image}
               $={$}
               _content_type_uid={'article'}
@@ -300,6 +303,16 @@ export default function Article() {
             </div>
           </div>
         </div>
+        
+        <RenderArticleComponents
+          articleComponents={page_components}
+          contentTypeUid={"article"}
+          entryUid={uid || ''}
+          locale={locale || 'en-us'}
+          pageData={page_components}
+          articleTitle={page_components[2]?.related_articles.title}
+          key={`component-${'article'}`}
+        />
 
         {/* Related Links Section */}
         {data?.taxonomies?.length > 0 && show_related_links && (
