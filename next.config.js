@@ -65,42 +65,43 @@ const config = {
   },
 
   async headers() {
-    return [
-      {
-        source: "/(.*)", // apply CSP to all routes
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: `
-              default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
-              style-src 'self' 'unsafe-inline' https:;
-              img-src 'self' data: https:;
-              connect-src 'self'
-                https://*.csnonprod.com
-                https://*.contentstack.com
-                https://*.salesforce-sites.com
-                https://cdn-personalization.contentstack.com
-                https://cdn.contentstack.io
-                https://api.appcues.net
-                wss://api.appcues.net
-                https://liveagentcontentstack.secure.force.com
-                https://api-iam.intercom.io
-                wss://nexus-websocket-a.intercom.io
-                wss://ws-mt1.pusher.com
-                https://widget.usersnap.com
-                https://api.commandbar.com
-                https://t.commandbar.com
-                https://s3.us-west-2.amazonaws.com
-                https://*.browser-intake-datadoghq.eu
-                https://*.contentsquare.net;
-              frame-src 'self';
-            `.replace(/\s{2,}/g, " "), // clean spacing
-          },
-        ],
-      },
-    ];
-  },
+  return [
+    {
+      source: "/(.*)",
+      headers: [
+        {
+          key: "Content-Security-Policy",
+          value: `
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+            style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+            img-src 'self' data: https:;
+            connect-src 'self'
+              https://*.csnonprod.com
+              https://*.contentstack.com
+              https://*.salesforce-sites.com
+              https://cdn-personalization.contentstack.com
+              https://cdn.contentstack.io
+              https://api.appcues.net
+              wss://api.appcues.net
+              https://liveagentcontentstack.secure.force.com
+              https://api-iam.intercom.io
+              wss://nexus-websocket-a.intercom.io
+              wss://ws-mt1.pusher.com
+              https://widget.usersnap.com
+              https://api.commandbar.com
+              https://t.commandbar.com
+              https://s3.us-west-2.amazonaws.com
+              https://*.browser-intake-datadoghq.eu
+              https://*.contentsquare.net;
+            frame-src 'self';
+          `.replace(/\s{2,}/g, " "),
+        },
+      ],
+    },
+  ];
+},
+
 };
 
 module.exports = withPWA(config);
