@@ -116,3 +116,33 @@ export type BlogPosts = {
     body?: string;
   };
 }
+
+export type TestPage = {
+  title: string;
+  date: string;
+  body: string;
+  body_rte: string;
+  author: [Author];
+  related_test_page: [TestPageReference];
+  locale: string;
+  featured_image: Image;
+  is_archived: boolean;
+  seo: Seo;
+  uid: string;
+  url: string;
+  _owner: string;
+  _content_type_uid: string;
+  $?: AdditionalParam & {
+    body?: string;
+    body_rte?: string;
+    related_test_page?: any;
+  };
+}
+
+export type TestPageReference = {
+  url?: string;
+  body?: string;
+  title: string;
+  featured_image?: Image;
+  $: AdditionalParam;
+}

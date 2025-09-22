@@ -1,5 +1,5 @@
 import { addEditableTags } from "@contentstack/utils";
-import { Page, BlogPosts } from "../typescript/pages";
+import { Page, BlogPosts, TestPage } from "../typescript/pages";
 import getConfig from "next/config";
 import { FooterProps, HeaderProps } from "../typescript/layout";
 import { getEntry, getEntryByUrl } from "../contentstack-sdk";
@@ -114,4 +114,67 @@ export const getArticleByUid = async (
   })) as BlogPosts[];
   liveEdit && addEditableTags(response[0], 'article', true);
   return response[0];
+};
+
+export const getTestPageListRes = async (
+  locale: string = DEFAULT_LOCALE
+): Promise<TestPage[]> => {
+  const response = (await getEntry({
+    contentTypeUid: 'test_page',
+    referenceFieldPath: ['author', 'related_test_page'],
+    jsonRtePath: ['body', 'body_rte'],
+    locale
+  })) as TestPage[][];
+  liveEdit &&
+    response[0].forEach((entry) => addEditableTags(entry, 'test_page', true));
+  return response[0];
+};
+
+export const getTestPageRes = async (
+  entryUrl: string,
+  locale: string = DEFAULT_LOCALE
+): Promise<TestPage> => {
+  const response = (await getEntryByUrl({
+    contentTypeUid: 'test_page',
+    entryUrl,
+    referenceFieldPath: ['author', 'related_test_page'],
+    jsonRtePath: ['body', 'body_rte', 'related_test_page.body'],
+    locale
+  })) as TestPage[];
+  liveEdit && addEditableTags(response[0], 'test_page', true);
+  return response[0];
+};
+
+export const getEntryByUidHelper = async (
+  uid: string,
+  contentTypeUid: string,
+  locale: string = DEFAULT_LOCALE
+): Promise<any> => {
+  try {
+    console.log('🔧 Helper: Fetching entry with params:', { uid, contentTypeUid, locale });
+    
+    const response = await getEntry({
+      contentTypeUid,
+      entryUid: uid,
+      referenceFieldPath: undefined,
+      jsonRtePath: undefined,
+      locale
+    });
+    
+    console.log('🔧 Helper: Raw response:', response);
+    
+    // The response is an array with the entry as the first element
+    if (response && Array.isArray(response) && response.length > 0) {
+      const entry = response[0];
+      console.log('🔧 Helper: Found entry:', entry);
+      liveEdit && addEditableTags(entry, contentTypeUid, true);
+      return entry;
+    }
+    
+    console.error('🔧 Helper: No entry found in response');
+    throw new Error(`Entry not found: ${uid}`);
+  } catch (error) {
+    console.error('🔧 Helper: Error in getEntryByUidHelper:', error);
+    throw error;
+  }
 };
