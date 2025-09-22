@@ -15,6 +15,7 @@ import { usePersonalization } from '@/context'
 import { articleJSONRtePathIncludes } from '@/services/helper'
 import { getEntries, getEntryByUrl } from '@/services'
 import RenderArticleComponents from '@/components/Article/RenderArticleComponent'
+import { jsonToHtml } from "@contentstack/json-rte-serializer"
 
 /**
  * @component Article - Article Component (Slug Based)
@@ -223,7 +224,12 @@ export default function Article() {
     $
   } = data || {}
 
+      const bodyJson = data?.body;
 
+  const htmlValue = bodyJson ? jsonToHtml(bodyJson) : "";
+  console.log("Converted HTML:", htmlValue);
+
+console.log('📰 Article Data:', data?.body)
   const cards: ImageCardItem[] | [] = (articles?.map((article) => {
     return {
       title: article?.title,
@@ -266,7 +272,7 @@ export default function Article() {
                 <div className="max-w-4xl mx-auto">
                   <article className="prose prose-lg prose-slate max-w-none">
                     <div className="text-lg leading-relaxed text-gray-700 space-y-6">
-                      <Text content={content} $={$} id={'article-content'} />
+                      <Text content={htmlValue} $={$} id={'article-content'} />
                       {(!content || !content.trim()) && isDataInLiveEdit() && (
                         <div className="space-y-4 p-6 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg" {...$?.content}>
                           <div className="text-center text-gray-500 text-sm mb-4">
@@ -310,7 +316,7 @@ export default function Article() {
           entryUid={uid || ''}
           locale={locale || 'en-us'}
           pageData={page_components}
-          articleTitle={page_components[2]?.related_articles.title}
+          articleTitle={page_components[2]?.related_articles?.title}
           key={`component-${'article'}`}
         />
 
