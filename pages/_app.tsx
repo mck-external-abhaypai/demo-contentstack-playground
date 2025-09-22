@@ -4,6 +4,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import Layout from '../components/layout';
 import { getHeaderRes, getFooterRes, getAllEntries } from '../helper';
+import { DEFAULT_LOCALE } from '../config/localization';
 import 'nprogress/nprogress.css';
 import '../styles/third-party.css';
 import '../styles/Home.module.css';
@@ -12,7 +13,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import '../components/Carousel/carousel.css';
 import { Props } from "../typescript/pages";
 import ContentstackLivePreview from "@contentstack/live-preview-utils";
-import { onEntryChange } from '@contentstack/live-preview-utils';
 import { useEffect } from 'react';
 import getConfig from 'next/config';
 import '../styles/globals.css';
@@ -106,9 +106,10 @@ function MyApp(props: Props) {
 
 MyApp.getInitialProps = async (appContext: any) => {
   const appProps = await App.getInitialProps(appContext);
-  const header = await getHeaderRes();
-  const footer = await getFooterRes();
-  const entries = await getAllEntries();
+  const locale = appContext.router.locale || DEFAULT_LOCALE;
+  const header = await getHeaderRes(locale);
+  const footer = await getFooterRes(locale);
+  const entries = await getAllEntries(locale);
 
   return { ...appProps, header, footer, entries };
 };
