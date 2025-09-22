@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { onEntryChange } from '../contentstack-sdk';
 import RenderComponents from '../components/render-components';
 import { getPageRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
 import { Props, Context } from "../typescript/pages";
+import { DEFAULT_LOCALE } from "../config/localization";
 
 export default function Home(props: Props) {
 
   const { page, entryUrl } = props;
-
+  const router = useRouter();
   const [getEntry, setEntry] = useState(page);
 
   async function fetchData() {
     try {
-      const entryRes = await getPageRes(entryUrl);
+      const locale = router.locale || DEFAULT_LOCALE;
+      const entryRes = await getPageRes(entryUrl, locale);
       if (!entryRes) throw new Error('Status code 404');
       setEntry(entryRes);
     } catch (error) {
@@ -39,7 +42,8 @@ export default function Home(props: Props) {
 
 export async function getServerSideProps(context: Context) {
   try {
-    const entryRes = await getPageRes(context.resolvedUrl);
+    const locale = context.locale || DEFAULT_LOCALE;
+    const entryRes = await getPageRes(context.resolvedUrl, locale);
     return {
       props: {
         entryUrl: context.resolvedUrl,

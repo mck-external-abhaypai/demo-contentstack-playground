@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { onEntryChange } from '../../contentstack-sdk';
 import BlogList from '../../components/blog-list';
 import RenderComponents from '../../components/render-components';
@@ -7,14 +8,17 @@ import { getPageRes, getBlogListRes } from '../../helper';
 import ArchiveRelative from '../../components/archive-relative';
 import Skeleton from 'react-loading-skeleton';
 import { Page, PostPage, PageUrl, Context } from "../../typescript/pages";
+import { DEFAULT_LOCALE } from "../../config/localization";
 
 
-export default function Blog({ page, posts, archivePost, pageUrl }: {page: Page, posts: PostPage, archivePost: PostPage, pageUrl: PageUrl}) {
+export default function Blog({ page, posts, archivePost, pageUrl }: { page: Page, posts: PostPage, archivePost: PostPage, pageUrl: PageUrl }) {
 
+  const router = useRouter();
   const [getBanner, setBanner] = useState(page);
   async function fetchData() {
     try {
-      const bannerRes = await getPageRes(pageUrl);
+      const locale = router.locale || DEFAULT_LOCALE;
+      const bannerRes = await getPageRes(pageUrl, locale);
       if (!bannerRes) throw new Error('Status code 404');
       setBanner(bannerRes);
     } catch (error) {
@@ -65,8 +69,9 @@ export default function Blog({ page, posts, archivePost, pageUrl }: {page: Page,
 
 export async function getServerSideProps(context: Context) {
   try {
-    const page = await getPageRes(context.resolvedUrl);
-    const result = await getBlogListRes();
+    const locale = context.locale || DEFAULT_LOCALE;
+    const page = await getPageRes(context.resolvedUrl, locale);
+    const result = await getBlogListRes(locale);
 
     const archivePost = [] as any;
     const posts = [] as any;

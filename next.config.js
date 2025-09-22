@@ -7,7 +7,7 @@ const withPWA = require("next-pwa")({
 
 const config = {
   i18n: {
-    locales: ['en-us', 'fr'],
+    locales: ['en-us', 'fr', 'es', 'ar', 'de-de', 'ja'],
     defaultLocale: 'en-us',
   },
   publicRuntimeConfig: {

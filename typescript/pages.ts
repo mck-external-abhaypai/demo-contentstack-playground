@@ -81,6 +81,7 @@ export type Page ={
 }
 
 export type Context = {
+  locale: string;
   resolvedUrl: string;
   setHeader: Function;
   write: Function;

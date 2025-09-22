@@ -18,3 +18,7 @@ export const defaultLocale = configuredLocale().toString()
 export const defaultLocaleName = configuredLocale().baseName.toString().toLocaleLowerCase()
 
 export const localeCookieName = process.env.LOCALE_COOKIE_NAME ? process.env.LOCALE_COOKIE_NAME : fallbackLocaleCookieName
+
+// Default locale for Contentstack and Next.js i18n fallback
+// This should match the defaultLocale in next.config.js
+export const DEFAULT_LOCALE = 'en-us'

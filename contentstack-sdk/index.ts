@@ -1,6 +1,7 @@
 import * as Utils from "@contentstack/utils";
 import ContentstackLivePreview from "@contentstack/live-preview-utils";
 import getConfig from "next/config";
+import { DEFAULT_LOCALE } from "../config/localization";
 import {
   customHostUrl,
   initializeContentStackSdk,
@@ -12,6 +13,7 @@ type GetEntry = {
   referenceFieldPath: string[] | undefined;
   jsonRtePath: string[] | undefined;
   entryUid?: string;
+  locale?: string;
 };
 
 type GetEntryByUrl = {
@@ -19,6 +21,7 @@ type GetEntryByUrl = {
   contentTypeUid: string;
   referenceFieldPath: string[] | undefined;
   jsonRtePath: string[] | undefined;
+  locale?: string;
 };
 
 const { publicRuntimeConfig } = getConfig();
@@ -73,10 +76,13 @@ export const getEntry = ({
   referenceFieldPath,
   jsonRtePath,
   entryUid,
+  locale = DEFAULT_LOCALE
 }: GetEntry) => {
   return new Promise((resolve, reject) => {
     const query = Stack.ContentType(contentTypeUid).Query();
     if (referenceFieldPath) query.includeReference(referenceFieldPath);
+    query.language(locale);
+    query.includeFallback();
     if (entryUid) {
       query
         .toJSON()
@@ -132,10 +138,13 @@ export const getEntryByUrl = ({
   entryUrl,
   referenceFieldPath,
   jsonRtePath,
+  locale = DEFAULT_LOCALE
 }: GetEntryByUrl) => {
   return new Promise((resolve, reject) => {
     const blogQuery = Stack.ContentType(contentTypeUid).Query();
     if (referenceFieldPath) blogQuery.includeReference(referenceFieldPath);
+    blogQuery.language(locale);
+    blogQuery.includeFallback();
     blogQuery.toJSON();
     const data = blogQuery.where("url", `${entryUrl}`).find();
     data.then(

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import { getPageRes, getBlogPostRes } from '../../helper';
@@ -7,15 +8,17 @@ import Skeleton from 'react-loading-skeleton';
 import RenderComponents from '../../components/render-components';
 import ArchiveRelative from '../../components/archive-relative';
 import { Page, BlogPosts, PageUrl } from "../../typescript/pages";
+import { DEFAULT_LOCALE } from "../../config/localization";
 
 
-export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPosts, page: Page, pageUrl: PageUrl}) {
-  
+export default function BlogPost({ blogPost, page, pageUrl }: { blogPost: BlogPosts, page: Page, pageUrl: PageUrl }) {
+  const router = useRouter();
   const [getPost, setPost] = useState({ banner: page, post: blogPost });
   async function fetchData() {
     try {
-      const entryRes = await getBlogPostRes(pageUrl);
-      const bannerRes = await getPageRes('/blog');
+      const locale = router.locale || DEFAULT_LOCALE;
+      const entryRes = await getBlogPostRes(pageUrl, locale);
+      const bannerRes = await getPageRes('/blog', locale);
       if (!entryRes || !bannerRes) throw new Error('Status: ' + 404);
       setPost({ banner: bannerRes, post: entryRes });
     } catch (error) {
@@ -93,10 +96,11 @@ export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPos
     </>
   );
 }
-export async function getServerSideProps({ params }: any) {
+export async function getServerSideProps({ params, locale }: any) {
   try {
-    const page = await getPageRes('/blog');
-    const posts = await getBlogPostRes(`/blog/${params.post}`);
+    const currentLocale = locale || DEFAULT_LOCALE;
+    const page = await getPageRes('/blog', currentLocale);
+    const posts = await getBlogPostRes(`/blog/${params.post}`, currentLocale);
     if (!page || !posts) throw new Error('404');
 
     return {

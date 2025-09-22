@@ -11,6 +11,7 @@ import { NotFoundComponent } from '@/components/common/404'
 import { onEntryChange } from '@/config'
 import { getPersonalizeAttribute, isDataInLiveEdit, removeSpecialChar } from '@/utils'
 import useRouterHook from '@/hooks/useRouterHook'
+import { DEFAULT_LOCALE } from '@/config/localization'
 import { setDataForChromeExtension } from '@/utils'
 import { usePersonalization } from '@/context'
 import { articleJSONRtePathIncludes } from '@/services/helper'
@@ -87,7 +88,7 @@ export default function Article() {
         try {
           entryData = (await getEntryByUrl(
             'article',
-            locale ?? 'en-us',
+            locale ?? DEFAULT_LOCALE,
             urlVariant,
             [],
             jsonRtePaths,
@@ -118,7 +119,7 @@ export default function Article() {
       setDataForChromeExtension({
         entryUid: entryData?.uid || '',
         contenttype: 'article',
-        locale: locale || 'en-us'
+        locale: locale || DEFAULT_LOCALE
       })
       setLoading(false)
     } catch (err) {
@@ -143,7 +144,7 @@ export default function Article() {
 
           const listingData = (await getEntries(
             'article_listing_page',
-            locale ?? 'en-us',
+            locale ?? DEFAULT_LOCALE,
             [],
             [],
             {
