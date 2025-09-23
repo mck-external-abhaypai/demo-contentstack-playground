@@ -227,9 +227,7 @@ export default function Article() {
       const bodyJson = data?.body;
 
   const htmlValue = bodyJson ? jsonToHtml(bodyJson) : "";
-  console.log("Converted HTML:", htmlValue);
-
-console.log('📰 Article Data:', data?.body)
+ 
   const cards: ImageCardItem[] | [] = (articles?.map((article) => {
     return {
       title: article?.title,
