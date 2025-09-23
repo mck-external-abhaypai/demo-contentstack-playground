@@ -73,15 +73,15 @@ const config = {
   },
 
   async headers() {
-  return [
-    {
-      source: "/(.*)",
-      headers: [
-        {
-          key: "Content-Security-Policy",
-          value: `
-            default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' https:
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https:
               https://imagepresetbuilder.contentstackmarket.com
               https://t.contentsquare.net
               https://c.contentsquare.net
@@ -91,9 +91,15 @@ const config = {
               https://fast.appcues.com
               https://fast.appcues.net
               https://widget.usersnap.com
-              https://cdn.commandbar.com;
-              style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+              https://cdn.commandbar.com
+              https://cdn.jsdelivr.net;
+              style-src 'self' 'unsafe-inline' https:
+              https://cdn.jsdelivr.net
+              https://cdnjs.cloudflare.com;
               img-src 'self' data: https: https://images.contentstack.io;
+              font-src 'self' https:
+              https://fonts.gstatic.com
+              https://cdnjs.cloudflare.com;
               connect-src 'self'
               https://*.csnonprod.com
               https://*.contentstack.com
@@ -116,16 +122,19 @@ const config = {
               https://c.contentsquare.net
               https://k-aus1.contentsquare.net
               https://srm.bf.contentsquare.net
-              https://images.contentstack.io;
+              https://images.contentstack.io
+              https://cdn.jsdelivr.net
+              https://cdnjs.cloudflare.com
+              https://fonts.gstatic.com;
               frame-src 'self'
               https://app.contentstack.com
               https://imagepresetbuilder.contentstackmarket.com;
           `.replace(/\s{2,}/g, " "),
-        },
-      ],
-    },
-  ];
-}
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = withPWA(config);
