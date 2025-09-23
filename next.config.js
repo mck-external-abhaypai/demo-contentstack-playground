@@ -1,12 +1,11 @@
-/** @type {import('next').NextConfig} */
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development' || true, // Completely disable PWA
-  publicExcludes: ['!noprecache/**/*'], // Exclude all files from precaching
-  buildExcludes: [/.*$/], // Exclude all files from build precaching
-})
+const withPWA = require("next-pwa")({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  skipWaiting: true,
+});
 
-const config = withPWA({
+const config = {
   i18n: {
     locales: ["en-us", "fr"],
     defaultLocale: "en-us",
@@ -74,28 +73,59 @@ const config = withPWA({
   },
 
   async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: `
-              default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;
-              script-src * 'unsafe-inline' 'unsafe-eval';
-              style-src * 'unsafe-inline';
-              font-src * data:;
-              img-src * data: blob:;
-              connect-src *;
-              frame-src *;
-              object-src *;
-              media-src *;
-            `.replace(/\s{2,}/g, " "),
-          },
-        ],
-      },
-    ];
-  },
-})
+  return [
+    {
+      source: "/(.*)",
+      headers: [
+        {
+          key: "Content-Security-Policy",
+          value: `
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https:
+              https://imagepresetbuilder.contentstackmarket.com
+              https://t.contentsquare.net
+              https://c.contentsquare.net
+              https://k-aus1.contentsquare.net
+              https://srm.bf.contentsquare.net
+              https://cdn.heapanalytics.com
+              https://fast.appcues.com
+              https://fast.appcues.net
+              https://widget.usersnap.com
+              https://cdn.commandbar.com;
+              style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+              img-src 'self' data: https: https://images.contentstack.io;
+              connect-src 'self'
+              https://*.csnonprod.com
+              https://*.contentstack.com
+              https://cdn.contentstack.io
+              https://images.contentstack.io
+              https://cdn-personalization.contentstack.com
+              https://*.salesforce-sites.com
+              https://api.appcues.net
+              wss://api.appcues.net
+              https://liveagentcontentstack.secure.force.com
+              https://api-iam.intercom.io
+              wss://nexus-websocket-a.intercom.io
+              wss://ws-mt1.pusher.com
+              https://widget.usersnap.com
+              https://api.commandbar.com
+              https://t.commandbar.com
+              https://s3.us-west-2.amazonaws.com
+              https://*.browser-intake-datadoghq.eu
+              https://*.contentsquare.net
+              https://c.contentsquare.net
+              https://k-aus1.contentsquare.net
+              https://srm.bf.contentsquare.net
+              https://images.contentstack.io;
+              frame-src 'self'
+              https://app.contentstack.com
+              https://imagepresetbuilder.contentstackmarket.com;
+          `.replace(/\s{2,}/g, " "),
+        },
+      ],
+    },
+  ];
+}
+};
 
-module.exports = config;
+module.exports = withPWA(config);
