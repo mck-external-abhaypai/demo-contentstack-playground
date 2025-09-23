@@ -7,21 +7,33 @@ const getLocaleForURL = () => {
     return window.location.pathname?.split('/').filter(Boolean)[0]
 }
 
-ContentstackLivePreview.init({
-    enable: process.env.isLivePreviewEnabled === 'true' ? true : false,
-    mode: process.env.CONTENTSTACK_VISUAL_BUILDER_MODE as LivePreviewMode,
-    clientUrlParams: { host: process.env.CONTENTSTACK_APP_HOST },
-    stackDetails: {
-        apiKey: process.env.CONTENTSTACK_API_KEY,
-        environment: process.env.CONTENTSTACK_ENVIRONMENT,
-        branch: process.env.CONTENTSTACK_BRANCH,
-        locale: getLocaleForURL()
-    },
-    stackSdk: Stack.config as IStackSdk,
-    ssr: false
-})
+let isInitialized = false
+
+const initializePreviewSDK = () => {
+    if (typeof window === 'undefined' || isInitialized) return
+
+    ContentstackLivePreview.init({
+        enable: process.env.isLivePreviewEnabled === 'true' ? true : false,
+        mode: process.env.CONTENTSTACK_VISUAL_BUILDER_MODE as LivePreviewMode,
+        clientUrlParams: { host: process.env.CONTENTSTACK_APP_HOST },
+        stackDetails: {
+            apiKey: process.env.CONTENTSTACK_API_KEY,
+            environment: process.env.CONTENTSTACK_ENVIRONMENT,
+            branch: process.env.CONTENTSTACK_BRANCH,
+            locale: getLocaleForURL()
+        },
+        stackSdk: Stack.config as IStackSdk,
+        ssr: false
+    })
+
+    isInitialized = true
+}
 
 export const previewSdk = {
-    onEntryChange: ContentstackLivePreview.onEntryChange,
-    VB_EmptyBlockParentClass: VB_EmptyBlockParentClass
+    onEntryChange: (callback: () => void) => {
+        initializePreviewSDK()
+        return ContentstackLivePreview.onEntryChange(callback)
+    },
+    VB_EmptyBlockParentClass: VB_EmptyBlockParentClass,
+    init: initializePreviewSDK
 }

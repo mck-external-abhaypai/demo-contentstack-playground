@@ -63,7 +63,7 @@ export default function Article() {
     try {
       const jsonRtePaths = [...articleJSONRtePathIncludes]
       console.log('🔎 Fetching entry for path:', path, 'locale:', locale)
-      
+
       // Debug environment config
       console.log('🔧 Environment check:', {
         hasPersonalizationSDK: !!personalizationSDK,
@@ -71,7 +71,7 @@ export default function Article() {
         localeType: typeof locale,
         jsonRtePathsLength: jsonRtePaths.length
       })
-      
+
       // Strip query parameters from path for URL matching
       const cleanPath = path?.split('?')[0] || path
 
@@ -94,7 +94,7 @@ export default function Article() {
             jsonRtePaths,
             personalizationSDK
           )) as Page.ArticlePage['entry']
-          
+
           if (entryData) {
             console.log('✅ Found entry with URL:', urlVariant)
             break
@@ -227,7 +227,7 @@ export default function Article() {
       const bodyJson = data?.body;
 
   const htmlValue = bodyJson ? jsonToHtml(bodyJson) : "";
- 
+
   const cards: ImageCardItem[] | [] = (articles?.map((article) => {
     return {
       title: article?.title,
@@ -245,7 +245,7 @@ export default function Article() {
     <div className="min-h-screen bg-white">
       <PageWrapper {...data}>
         {/* Hero Section with Background Image */}
-       
+
 
         {/* Article Cover Component */}
         <div className="bg-white py-8">
@@ -264,50 +264,24 @@ export default function Article() {
         <div className="w-full">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-              
+
               {/* Article Content */}
               <div className="lg:col-span-3">
                 <div className="max-w-4xl mx-auto">
                   <article className="prose prose-lg prose-slate max-w-none">
                     <div className="text-lg leading-relaxed text-gray-700 space-y-6">
                       <Text content={htmlValue} $={$} id={'article-content'} />
-                      {(!content || !content.trim()) && isDataInLiveEdit() && (
-                        <div className="space-y-4 p-6 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg" {...$?.content}>
-                          <div className="text-center text-gray-500 text-sm mb-4">
-                            Content Placeholder - This will only appear in the visual editor
-                          </div>
-                          <p>
-                            Welcome to Amsterdam, a city where history flows through every canal and culture blooms
-                            on every corner. This enchanting Dutch capital offers visitors an unforgettable journey
-                            through centuries of art, architecture, and innovation.
-                          </p>
-                          <p>
-                            From the world-renowned museums housing masterpieces by Van Gogh and Rembrandt to the
-                            charming neighborhoods lined with historic townhouses, Amsterdam presents a perfect blend
-                            of old-world charm and modern sophistication.
-                          </p>
-                          <p>
-                            Take a leisurely cruise along the UNESCO World Heritage canals, explore the vibrant local
-                            markets, or simply enjoy a coffee at one of the many canal-side cafés. Each experience in
-                            Amsterdam tells a story of resilience, creativity, and the enduring Dutch spirit.
-                          </p>
-                          <p>
-                            Whether you're interested in art, history, cycling, or simply soaking in the unique
-                            atmosphere of this remarkable city, Amsterdam promises memories that will last a lifetime.
-                          </p>
-                        </div>
-                      )}
                     </div>
                   </article>
                 </div>
               </div>
 
               {/* Sidebar */}
-             
+
             </div>
           </div>
         </div>
-        
+
         <RenderArticleComponents
           articleComponents={page_components}
           contentTypeUid={"article"}
@@ -335,9 +309,9 @@ export default function Article() {
         {show_related_articles && relatedArticles && relatedArticles.length > 0 && (
           <div className="mt-16">
             <div className="max-w-6xl mx-auto px-6 lg:px-8">
-              <RelatedArticles 
-                related_articles={related_articles} 
-                cards={relatedArticles} 
+              <RelatedArticles
+                related_articles={related_articles}
+                cards={relatedArticles}
               />
             </div>
           </div>
