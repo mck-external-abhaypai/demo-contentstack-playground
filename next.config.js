@@ -73,7 +73,7 @@ const config = {
           key: "Content-Security-Policy",
           value: `
             default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://imagepresetbuilder.contentstackmarket.com;
             style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
             img-src 'self' data: https:;
             connect-src 'self'
@@ -93,14 +93,16 @@ const config = {
               https://t.commandbar.com
               https://s3.us-west-2.amazonaws.com
               https://*.browser-intake-datadoghq.eu
-              https://*.contentsquare.net;
-            frame-src 'self';
+              https://*.contentsquare.net
+              https://imagepresetbuilder.contentstackmarket.com;
+            frame-src 'self' https://imagepresetbuilder.contentstackmarket.com;
           `.replace(/\s{2,}/g, " "),
         },
       ],
     },
   ];
 },
+
 
 };
 
