@@ -31,7 +31,6 @@ const ArticleCover:React.FC<ArticleCoverType> = (props:ArticleCoverType) => {
                 className='mb-0'
             />
             {/* This Text component is used to display the summary of the article as per new figma design in sprint22 */}
-            <div className='relative mt-[1rem] mx-[2.25rem] md:mx-[5.25rem] dark:bg-stone text-base robotoCondensed'>By Hugh Bachmann, Dominic Skerritt, and Elizabeth Young McNally</div>
             <Text
                 content={`<p class='mb-0 !pb-0 pt-[1.894rem] tracking-[0] text-[#253143]'><strong class='text-md md:text-2xl font-robotoCondensed font-semibold' ${(isDataInLiveEdit()) ? `data-cslp='${$?.summary?.['data-cslp']}'` : ''}>${summary}</strong></p>`}
                 $ = {(!isDataInLiveEdit()) ? {
