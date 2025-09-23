@@ -1,6 +1,6 @@
 const withPWA = require("next-pwa")({
   dest: "public",
-  disable: process.env.NODE_ENV === "development", // Disable PWA in development
+  disable: process.env.NODE_ENV === "development",
   register: true,
   skipWaiting: true,
 });
@@ -82,42 +82,54 @@ const config = {
             value: `
               default-src 'self';
               script-src 'self' 'unsafe-inline' 'unsafe-eval' https:
-                https://imagepresetbuilder.contentstackmarket.com
-                https://t.contentsquare.net
-                https://c.contentsquare.net
-                https://k-aus1.contentsquare.net
-                https://srm.bf.contentsquare.net
-                https://cdn.heapanalytics.com
-                https://fast.appcues.com
-                https://fast.appcues.net
-                https://widget.usersnap.com
-                https://cdn.commandbar.com;
-              style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
-              img-src 'self' data: https:;
+              https://imagepresetbuilder.contentstackmarket.com
+              https://t.contentsquare.net
+              https://c.contentsquare.net
+              https://k-aus1.contentsquare.net
+              https://srm.bf.contentsquare.net
+              https://cdn.heapanalytics.com
+              https://fast.appcues.com
+              https://fast.appcues.net
+              https://widget.usersnap.com
+              https://cdn.commandbar.com
+              https://cdn.jsdelivr.net;
+              style-src 'self' 'unsafe-inline' https:
+              https://cdn.jsdelivr.net
+              https://cdnjs.cloudflare.com;
+              img-src 'self' data: https: https://images.contentstack.io;
+              font-src 'self' https:
+              https://fonts.gstatic.com
+              https://cdnjs.cloudflare.com;
               connect-src 'self'
-                https://*.csnonprod.com
-                https://*.contentstack.com
-                https://*.salesforce-sites.com
-                https://cdn-personalization.contentstack.com
-                https://cdn.contentstack.io
-                https://api.appcues.net
-                wss://api.appcues.net
-                https://liveagentcontentstack.secure.force.com
-                https://api-iam.intercom.io
-                wss://nexus-websocket-a.intercom.io
-                wss://ws-mt1.pusher.com
-                https://widget.usersnap.com
-                https://api.commandbar.com
-                https://t.commandbar.com
-                https://s3.us-west-2.amazonaws.com
-                https://*.browser-intake-datadoghq.eu
-                https://*.contentsquare.net
-                https://c.contentsquare.net
-                https://k-aus1.contentsquare.net
-                https://srm.bf.contentsquare.net;
+              https://*.csnonprod.com
+              https://*.contentstack.com
+              https://cdn.contentstack.io
+              https://images.contentstack.io
+              https://cdn-personalization.contentstack.com
+              https://*.salesforce-sites.com
+              https://api.appcues.net
+              wss://api.appcues.net
+              https://liveagentcontentstack.secure.force.com
+              https://api-iam.intercom.io
+              wss://nexus-websocket-a.intercom.io
+              wss://ws-mt1.pusher.com
+              https://widget.usersnap.com
+              https://api.commandbar.com
+              https://t.commandbar.com
+              https://s3.us-west-2.amazonaws.com
+              https://*.browser-intake-datadoghq.eu
+              https://*.contentsquare.net
+              https://c.contentsquare.net
+              https://k-aus1.contentsquare.net
+              https://srm.bf.contentsquare.net
+              https://images.contentstack.io
+              https://cdn.jsdelivr.net
+              https://cdnjs.cloudflare.com
+              https://fonts.gstatic.com;
               frame-src 'self'
-                https://imagepresetbuilder.contentstackmarket.com;
-            `.replace(/\s{2,}/g, " "),
+              https://app.contentstack.com
+              https://imagepresetbuilder.contentstackmarket.com;
+          `.replace(/\s{2,}/g, " "),
           },
         ],
       },
