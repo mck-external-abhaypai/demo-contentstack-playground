@@ -38,6 +38,15 @@ function MyApp(props: Props) {
   const { page, posts, archivePost, blogPost } = pageProps;
 
   useEffect(() => {
+    // Unregister service worker to fix image/font loading issues
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(registration => {
+          registration.unregister();
+        });
+      });
+    }
+
     if (CONTENTSTACK_LIVE_PREVIEW === "true") {
       ContentstackLivePreview.init({
         stackDetails: {
