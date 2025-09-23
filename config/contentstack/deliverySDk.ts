@@ -24,9 +24,9 @@ let VB_EmptyBlockParentClass: string = ''
 if (isLivePreviewEnabled) {
     const loadPreviewSDK = async () => {
         const { previewSdk } = await import('@/config/contentstack/previewSDk')
+        previewSdk.init()
         onEntryChange = previewSdk.onEntryChange
         VB_EmptyBlockParentClass = previewSdk.VB_EmptyBlockParentClass
-
     }
 
     loadPreviewSDK().catch((error) => {
